@@ -1,0 +1,23 @@
+# remove all volume in docker :
+#   docker volume rm $(docker volume ls -q)
+---
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    volumes:
+      - test-redis-data-volume:/data/
+    environment:
+      - REDIS_PASSWORD=defaultRedisPasswordToBeSetUpWithinEnv
+    ports:
+      - 6379:6379
+      - 6380:6380
+    restart: always
+
+volumes:
+  test-redis-data-volume:
+     driver: local
+     driver_opts:
+       type: none
+       o: bind
+       device: ${ROOT_PATH}/data/
